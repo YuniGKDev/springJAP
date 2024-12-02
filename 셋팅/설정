@@ -6,3 +6,7 @@ https://www.toptal.com/developers/gitignore/api/java,windows,macos,maven,dbeaver
 
 - 스프링 프로젝트 생성
 https://start.spring.io/
+
+- 롬복 셋팅
+intellij > Settings > Build, Execution, Deployment > Annotation Processors
+Enable annotation processing 선택 하기

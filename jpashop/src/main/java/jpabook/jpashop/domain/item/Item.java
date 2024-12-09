@@ -2,8 +2,11 @@ package jpabook.jpashop.domain.item;
 
 import jakarta.persistence.*;
 import jpabook.jpashop.domain.AuditingFields;
+import jpabook.jpashop.domain.Category;
 import lombok.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -13,7 +16,6 @@ import java.util.Objects;
 @DiscriminatorColumn(name = "dtype")
 @ToString
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor(staticName = "of")
 public abstract class Item extends AuditingFields {
     @Id
     @GeneratedValue
@@ -25,6 +27,9 @@ public abstract class Item extends AuditingFields {
     private int price;
 
     private int stockQuantity;
+
+    @ManyToMany(mappedBy = "items")
+    private List<Category> categories = new ArrayList<>();
 
     @Override
     public boolean equals(Object o) {

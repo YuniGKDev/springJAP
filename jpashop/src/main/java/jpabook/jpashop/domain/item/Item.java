@@ -14,7 +14,9 @@ import java.util.Objects;
 /* 상속관계전략 */
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "dtype")
-@ToString
+@ToString(callSuper = true, exclude = "categories")
+/* callSuper = true 상속받은 클래스의 정보까지 출력
+* exclude 제외할 필드를 지정 */
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public abstract class Item extends AuditingFields {
     @Id
@@ -28,6 +30,9 @@ public abstract class Item extends AuditingFields {
 
     private int stockQuantity;
 
+    /* @OneToMany(fetch = FetchType.LAZY) -> @XXXToMany - 속성이 지연로딩이다.
+    *  @ManyToOne(fetch = FetchType.EAGER) -> @XXXToOne - 속성이 즉시로딩이다.
+    *  => 즉시로딩 부분을 지연로딩으로 변경해줘야한다. */
     @ManyToMany(mappedBy = "items")
     private List<Category> categories = new ArrayList<>();
 

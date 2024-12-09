@@ -11,7 +11,7 @@ import java.util.Objects;
 @Entity
 @Setter
 @Getter
-@ToString
+@ToString(callSuper = true, exclude = "child")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(staticName = "of")
 public class Category extends AuditingFields{
@@ -31,7 +31,7 @@ public class Category extends AuditingFields{
     */
     private List<Item> items = new ArrayList<>();
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "parent_id")
     private Category parent;//뎁스를 나누기 위해
 

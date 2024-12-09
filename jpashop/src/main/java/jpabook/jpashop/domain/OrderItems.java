@@ -8,7 +8,7 @@ import java.util.Objects;
 
 @Entity
 @Setter @Getter
-@ToString
+@ToString(callSuper = true)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(staticName = "of")
 public class OrderItems extends AuditingFields{
@@ -17,11 +17,11 @@ public class OrderItems extends AuditingFields{
     @Column(name = "order_item_id", nullable = false)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="item_id")
     private Item item;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="order_id")
     private Order order;
 

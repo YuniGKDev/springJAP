@@ -5,7 +5,7 @@ import lombok.*;
 
 @Entity
 @Setter @Getter
-@ToString
+@ToString(callSuper = true, exclude = "order")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(staticName = "of")
 public class Delivery extends  AuditingFields{
@@ -14,7 +14,7 @@ public class Delivery extends  AuditingFields{
     @Column(name = "delivery_id", nullable = false)
     private Long id;
 
-    @OneToOne(mappedBy = "delivery")
+    @OneToOne(mappedBy = "delivery", fetch = FetchType.LAZY)
     private Order order;
 
     @Embedded

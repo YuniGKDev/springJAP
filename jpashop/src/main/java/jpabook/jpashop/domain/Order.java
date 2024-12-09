@@ -10,7 +10,7 @@ import java.util.Objects;
 
 @Entity
 @Setter @Getter
-@ToString
+@ToString(callSuper = true, exclude = "orderItems")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(staticName = "of")
 @Table(name="ordes")
@@ -20,14 +20,15 @@ public class Order extends AuditingFields{
     @Column(name = "order_id", nullable = false)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;/* 연관관계의 주인으로 기준점 */
 
     @OneToMany(mappedBy = "order")
+    @OrderBy("createdAt DESC")
     private List<OrderItems> orderItems = new ArrayList<>();
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "delivery_id")
     /* FK 접속이 많은 곳에 설정한다. */
     private Delivery delivery;

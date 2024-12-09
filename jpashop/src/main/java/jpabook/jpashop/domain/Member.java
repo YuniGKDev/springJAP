@@ -10,7 +10,7 @@ import java.util.Objects;
 
 @Entity
 @Setter @Getter
-@ToString
+@ToString(callSuper = true, exclude = "orders")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(staticName = "of")
 @Table(indexes = {

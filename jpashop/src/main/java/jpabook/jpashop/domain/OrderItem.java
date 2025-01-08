@@ -11,7 +11,7 @@ import java.util.Objects;
 @ToString(callSuper = true)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(staticName = "of")
-public class OrderItems extends AuditingFields{
+public class OrderItem extends AuditingFields{
     @Id
     @GeneratedValue
     @Column(name = "order_item_id", nullable = false)
@@ -31,12 +31,37 @@ public class OrderItems extends AuditingFields{
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
-        OrderItems that = (OrderItems) o;
+        OrderItem that = (OrderItem) o;
         return Objects.equals(id, that.id);
     }
 
     @Override
     public int hashCode() {
         return Objects.hashCode(id);
+    }
+
+    /* 생성 메서드 */
+    public static OrderItem createOrderItem(Item item, int orderPrice, int count){
+        OrderItem orderItem = new OrderItem();
+
+        orderItem.setItem(item);
+        orderItem.setOrderPrice(orderPrice);
+        orderItem.setCount(count);
+
+        item.removeStock(count);
+
+        return orderItem;
+    }
+
+    /* 비즈니스 로직 */
+    public void cancel() {
+        //주문 취소 수량 만큼 제고를 늘려준다.
+        getItem().addStock(count);
+    }
+
+    /* 조회 로직 */
+        /* 주문상품 전체 가격 조회 */
+    public int getTotalPrice() {
+        return getOrderPrice() * getCount();
     }
 }

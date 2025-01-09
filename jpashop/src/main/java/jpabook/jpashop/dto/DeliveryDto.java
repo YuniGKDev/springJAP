@@ -16,6 +16,7 @@ public record DeliveryDto(
         , LocalDateTime modifiedAt
         , String modifiedBy
 ) {
+
     public static DeliveryDto of(Long id, OrderDto orderDto, AddressDto addressDto, DeliveryStatus status, LocalDateTime createdAt, String createdBy, LocalDateTime modifiedAt, String modifiedBy) {
         return new DeliveryDto(id, orderDto, addressDto, status, createdAt, createdBy, modifiedAt, modifiedBy);
     }

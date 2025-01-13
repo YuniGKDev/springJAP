@@ -9,7 +9,7 @@ import java.util.Objects;
 @Entity
 @Setter @Getter
 @ToString(callSuper = true)
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor(access = AccessLevel.PUBLIC)
 @AllArgsConstructor(staticName = "of")
 public class OrderItem extends AuditingFields{
     @Id

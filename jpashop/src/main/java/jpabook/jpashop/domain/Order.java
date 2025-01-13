@@ -11,7 +11,7 @@ import java.util.Objects;
 @Entity
 @Setter @Getter
 @ToString(callSuper = true, exclude = "orderItems")
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor(access = AccessLevel.PUBLIC)
 @AllArgsConstructor(staticName = "of")
 @Table(name="ordes")
 public class Order extends AuditingFields{

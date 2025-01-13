@@ -35,16 +35,8 @@ class OrderServiceTest {
     @Test
     public void 상품주문() throws Exception{
         //given
-        Member member = new Member();
-        member.setName("회원1");
-        member.setAddress(new Address("서울","한강","123-45"));
-        em.persist(member);
-
-        Book book = new Book();
-        book.setName("JPA");
-        book.setPrice(10000);
-        book.setStockQuantity(10);
-        em.persist(book);
+        Member member = createMember();
+        Book book = createBook("JPA", 10000, 10);
 
         int orderCount = 2;
 
@@ -64,6 +56,10 @@ class OrderServiceTest {
     @Test
     public void 주문취소() throws Exception{
         //given
+        Member member = createMember();
+        Item item = createBook("JPA", 10000, 10);
+
+        int orderCount = 2;
 
         //when
 
@@ -74,13 +70,37 @@ class OrderServiceTest {
     @Test()
     public void 상품주문_재고수량초과() throws Exception{
         //given
+        Member member = createMember();
+        Item item = createBook("JPA", 10000, 10);
 
-
-        //when
+        int orderCount = 11;
 
         //then
         assertThrows(NotEnoughStockException.class, () -> {
+            //제고 수량 부족 예외가 발생한다.
             orderService.order(member.getId(), item.getId(), orderCount);
         });
     }
+
+    private Book createBook(String name, int price, int stockQuantity) {
+        Book book = new Book();
+        book.setName(name);
+        book.setPrice(price);
+        book.setStockQuantity(stockQuantity);
+
+        em.persist(book);
+
+        return book;
+    }
+
+    private Member createMember() {
+        Member member = new Member();
+        member.setName("회원1");
+        member.setAddress(new Address("서울","한강","123-45"));
+
+        em.persist(member);
+
+        return member;
+    }
+    
 }

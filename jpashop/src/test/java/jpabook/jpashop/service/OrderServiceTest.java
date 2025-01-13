@@ -49,7 +49,7 @@ class OrderServiceTest {
         assertEquals(getOrder.getStatus(), OrderStatus.ORDER, "상품 주문시 상태");
         assertEquals(1, getOrder.getOrderItems().size(), "주문환 상품 종류 수");
         assertEquals(10000*orderCount, getOrder.getTotalPrice(), "주문 가격은 가격 * 수량");
-        assertEquals(8, book.getStockQuantity(), "주문슈량 만큼 재고가 줄어야한다.");
+        assertEquals(8, book.getStockQuantity(), "주문수량 만큼 재고가 줄어야한다.");
     }
 
     @DisplayName("주문 - 주문취소")
@@ -61,9 +61,16 @@ class OrderServiceTest {
 
         int orderCount = 2;
 
+        Long orderId = orderService.order(member.getId(), item.getId(), orderCount);
+
         //when
+        orderService.cancelOrder(orderId);
 
         //then
+        Order getOrder =  orderRepository.findOne(orderId);
+
+        assertEquals(getOrder.getStatus(), OrderStatus.CANCEL, "상품 주문시 상태");
+        assertEquals(10, item.getStockQuantity(), "주문취소로 수량 원복");
     }
 
     @DisplayName("주문 - 재고수량초과")

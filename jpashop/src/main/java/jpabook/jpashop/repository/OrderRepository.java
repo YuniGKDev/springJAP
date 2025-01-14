@@ -20,6 +20,15 @@ public class OrderRepository {
         return em.find(Order.class, id);
     }
 
-    //public List<Order> findAll(){
-    // }
+    public List<Order> findAll(OrderSearch orederSearch){
+        List<Order> resultList = em.createQuery("SELEC O FROM ORDER O JOIN O.MEMBER M" +
+                        "WHERE O.STATUS = :STATUS" +
+                        "AND M.NAME LIKE :NAME", Order.class)
+                .setParameter("STATUS", orederSearch.getOrderStatus())
+                .setParameter("NAME", orederSearch.getMemberName())
+                .setMaxResults(1000)//최대 천건을 조회한다.
+                .getResultList();
+
+        return resultList;
+    }
 }

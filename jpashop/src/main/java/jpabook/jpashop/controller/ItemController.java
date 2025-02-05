@@ -67,6 +67,9 @@ public class ItemController {
     public String updateItem(@ModelAttribute("form") BookForm form){
         Book book = new Book();
 
+        /* {itemId} - 해당 부분 조작할 가능성이 있기 때문에 권한 체크 등의
+        * 방법으로 보안 필요성이 있다. */
+
         book.setId(form.getId());
         book.setName(form.getName());
         book.setPrice(form.getPrice());

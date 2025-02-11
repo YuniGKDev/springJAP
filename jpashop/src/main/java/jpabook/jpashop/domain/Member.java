@@ -11,7 +11,6 @@ import java.util.Objects;
 @Entity
 @Setter @Getter
 @ToString(callSuper = true, exclude = "orders")
-//@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @NoArgsConstructor(access = AccessLevel.PUBLIC)
 @AllArgsConstructor(staticName = "of")
 @Table(indexes = {

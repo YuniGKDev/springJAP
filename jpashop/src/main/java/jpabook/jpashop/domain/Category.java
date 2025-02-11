@@ -12,7 +12,7 @@ import java.util.Objects;
 @Setter
 @Getter
 @ToString(callSuper = true, exclude = "child")
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor(access = AccessLevel.PUBLIC)
 @AllArgsConstructor(staticName = "of")
 public class Category extends AuditingFields{
     @Id @GeneratedValue

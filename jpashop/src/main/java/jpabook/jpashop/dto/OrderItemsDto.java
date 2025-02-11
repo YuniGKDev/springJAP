@@ -1,6 +1,6 @@
 package jpabook.jpashop.dto;
 
-import jpabook.jpashop.domain.OrderItems;
+import jpabook.jpashop.domain.OrderItem;
 
 import java.time.LocalDateTime;
 
@@ -19,7 +19,7 @@ public record OrderItemsDto(
         return new OrderItemsDto(id, itemDto, orderDto, orderPrice, count, createdAt, createdBy, modifiedAt, modifiedBy);
     }
 
-    public static OrderItemsDto from(OrderItems entity){
+    public static OrderItemsDto from(OrderItem entity){
         return new OrderItemsDto(
                 entity.getId()
                 , ItemDto.from(entity.getItem())

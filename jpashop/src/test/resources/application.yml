@@ -1,13 +1,9 @@
 spring:
   datasource:
-    url: jdbc:h2:tcp://localhost/~/jpashop
+    url: jdbc:h2:mem:test
     username: sa
     password:
     driver-class-name: org.h2.Driver
-
-  output:
-    ansi:
-      enabled: always
 
   jpa:
     hibernate:

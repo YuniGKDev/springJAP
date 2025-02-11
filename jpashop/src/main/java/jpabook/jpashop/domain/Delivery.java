@@ -6,7 +6,8 @@ import lombok.*;
 @Entity
 @Setter @Getter
 @ToString(callSuper = true, exclude = "order")
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+//@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor(access = AccessLevel.PUBLIC)
 @AllArgsConstructor(staticName = "of")
 public class Delivery extends  AuditingFields{
     @Id

@@ -1,5 +1,6 @@
 package jpabook.jpashop.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -31,6 +32,7 @@ public class Member extends AuditingFields{
     @OneToMany(mappedBy = "member")
     /* 주인이 아닌 쪽은 읽기(조회)만 가능, MappedBy가 정의되지 않은 객체가 주인(Owner)
     * 외래키를 가진 객체를 주인으로 정의 */
+    /* @JsonIgnore - json에서 해당 값을 조회하지 않는다. */
     private List<Order> orders = new ArrayList<>();
 
     @Override

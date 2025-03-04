@@ -80,7 +80,7 @@ public class MemberApiController {
         List<MemberDto> collect = findMembers.stream()
                 .map(m -> new MemberDto(m.getName()))
                 .toList();
-        
+
         return new Result(collect);
     }
 

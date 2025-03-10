@@ -1,5 +1,6 @@
 package jpabook.jpashop.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jpabook.jpashop.domain.item.Item;
 import lombok.*;
@@ -23,6 +24,7 @@ public class OrderItem extends AuditingFields{
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="order_id")
+    @JsonIgnore
     private Order order;
 
     private int orderPrice;//주문 가격

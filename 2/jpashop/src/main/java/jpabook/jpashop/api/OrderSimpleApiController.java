@@ -1,20 +1,14 @@
 package jpabook.jpashop.api;
 
-import jpabook.jpashop.domain.Address;
 import jpabook.jpashop.domain.Order;
-import jpabook.jpashop.domain.OrderStatus;
 import jpabook.jpashop.repository.OrderRepository;
 import jpabook.jpashop.repository.OrderSearch;
-import jpabook.jpashop.repository.SimpleOrderDto;
-import lombok.Data;
+import jpabook.jpashop.repository.order.simplequery.OrderSimpleQueryRepository;
+import jpabook.jpashop.repository.order.simplequery.SimpleOrderDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.time.LocalDateTime;
 import java.util.List;
-import java.util.stream.Collectors;
-
 import static java.util.stream.Collectors.toList;
 
 /* *
@@ -27,6 +21,7 @@ import static java.util.stream.Collectors.toList;
 @RequiredArgsConstructor
 public class OrderSimpleApiController {
     private final OrderRepository orderRepository;
+    private final OrderSimpleQueryRepository orderSimpleQueryRepository;
 
     /* ordersV1 / ordersV2 - N+1의 문제가 발생한다. */
     @GetMapping("/api/v1/simple-orders")
@@ -65,6 +60,6 @@ public class OrderSimpleApiController {
 
     @GetMapping("/api/v4/simple-orders")
     public List<SimpleOrderDto> ordersV4() {
-        return orderRepository.findOrderDtos();
+        return orderSimpleQueryRepository.findOrderDtos();
     }
 }

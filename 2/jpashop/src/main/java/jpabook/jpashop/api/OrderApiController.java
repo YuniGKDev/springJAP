@@ -4,7 +4,6 @@ import jpabook.jpashop.domain.Address;
 import jpabook.jpashop.domain.Order;
 import jpabook.jpashop.domain.OrderItem;
 import jpabook.jpashop.domain.OrderStatus;
-import jpabook.jpashop.domain.item.Item;
 import jpabook.jpashop.repository.OrderRepository;
 import jpabook.jpashop.repository.OrderSearch;
 import lombok.Data;
@@ -15,7 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.toList;
 
 @RestController
 @RequiredArgsConstructor
@@ -62,7 +62,7 @@ public class OrderApiController {
         List<Order> orders = orderRepository.findAll(new OrderSearch());
         return orders.stream()
                 .map(o -> new OrderDto(o))
-                .collect(Collectors.toList());
+                .collect(toList());
     }
 
     //@Getter
@@ -90,8 +90,10 @@ public class OrderApiController {
             orderItems = o.getOrderItems();
             */
             orderItems = o.getOrderItems().stream()
-                    .map(orderItem -> new OrderItemDto(orderItem))
-                    .collect(Collectors.toList());
+                    //.map(orderItem -> new OrderItemDto(orderItem))
+                    .map(OrderItemDto::new)
+                    //.collect(Collectors.toList());
+                    .collect(toList());
         }
     }
 

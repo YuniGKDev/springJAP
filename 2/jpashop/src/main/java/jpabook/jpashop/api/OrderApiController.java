@@ -111,8 +111,13 @@ public class OrderApiController {
     }
 
     /* fetch join */
+    /* 1:N을 fetch join하면 페이징처리가 되지 않는다. */
     @GetMapping("/api/v3/orders")
     public List<OrderDto> ordersv3(){
         List<Order> orders = orderRepository.findAllWithItem();
+
+        return orders.stream()
+                .map(OrderDto::new)
+                .collect(toList());
     }
 }

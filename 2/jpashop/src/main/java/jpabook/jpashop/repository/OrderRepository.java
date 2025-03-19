@@ -48,4 +48,27 @@ public class OrderRepository {
                     Order.class
         ).getResultList();
     }
+
+    public List<Order> findAllWithItem() {
+        /* 현재는 데이터가 중복으로 나온다.
+        return em.createQuery(
+                "select o from Order o"+
+                   "fetch join o.member m"+
+                   "fetch join o.delivery d"+
+                   "fetch join o.orderItems oi"+
+                   "fetch join oi.item i"
+                , Order.class
+        ).getResultList();
+        */
+        /* 중복제거 - db에서는 모든 데이터가 동일해야 중복되나,
+        jpa distinct는 아이디가 동일하면 중복을 제거한다. */
+        return em.createQuery(
+                "select distinct o from Order o"+
+                        "fetch join o.member m"+
+                        "fetch join o.delivery d"+
+                        "fetch join o.orderItems oi"+
+                        "fetch join oi.item i"
+                , Order.class
+        ).getResultList();
+    }
 }

@@ -109,4 +109,10 @@ public class OrderApiController {
             count = o.getCount();
         }
     }
+
+    /* fetch join */
+    @GetMapping("/api/v3/orders")
+    public List<OrderDto> ordersv3(){
+        List<Order> orders = orderRepository.findAllWithItem();
+    }
 }

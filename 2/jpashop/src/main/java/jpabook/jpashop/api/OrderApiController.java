@@ -141,4 +141,9 @@ public class OrderApiController {
     public List<OrderQueryDto> ordersv4(){
         return orderQueryRepository.findOrderQueryDtos();
     }
+
+    @GetMapping("/api/v5/orders")
+    public List<OrderQueryDto> ordersv5(){
+        return orderQueryRepository.findAlBylDto_optimization();
+    }
 }

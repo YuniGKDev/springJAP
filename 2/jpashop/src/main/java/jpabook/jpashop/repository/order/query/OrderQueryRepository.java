@@ -5,6 +5,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.toList;
 
 @Repository
 @RequiredArgsConstructor
@@ -47,4 +51,35 @@ public class OrderQueryRepository {
                 , OrderQueryDto.class
         ).getResultList();
     }
+
+    public List<OrderQueryDto> findAlBylDto_optimization() {
+        List<OrderQueryDto> result = findOrdes();
+
+        List<Long> orderIds = result.stream()
+                .map(o -> o.getOrderId())
+                .collect(Collectors.toList());
+
+        List<OrderItemQueryDto> orderItems = em.createQuery(
+                        "select new jpabook.jpashop.repository.order.query.OrderItemQueryDto(" +
+                                "oi.order.id, i.name, oi.orderPrice, oi.count" +
+                                ")" +
+                                "from OrderItem oi" +
+                                "join oi.item i" +
+                                "where oi.order.id in :orderIds"
+                        , OrderItemQueryDto.class
+                )
+                .setParameter("orderIds", orderIds)
+                .getResultList();
+
+        /* Map로 변경 */
+       Map<Long, List<OrderItemQueryDto>> orderItemMap = orderItems.stream()
+               //.collect(Collectors.groupingBy(orderItemQueryDto -> orderItemQueryDto.getOrderId()))
+                .collect(Collectors.groupingBy(OrderItemQueryDto::getOrderId));
+
+       //result에서 orderId와 동일한 값이 있는지 확인 후 값을 넣어준다.
+        result.forEach(o -> o.setOrderItems(orderItemMap.get(o.getOrderId())));
+
+        return result;
+    }
+
 }

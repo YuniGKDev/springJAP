@@ -49,6 +49,20 @@ public class OrderRepository {
         ).getResultList();
     }
 
+    /* N+1문제를 해결하기 위해 join fetch를 사용한다.
+    * 페이징 처리를 위해 offset, limit를 파라미터로 받는다. */
+    public List<Order> findAllWithMemberDelivery(int offsert, int liimt){
+        //재사용이 가능하다.
+        return em.createQuery(
+                "select o from Order o"+
+                        "join fetch o.member m"+
+                        "join fetch o.delivery d",
+                Order.class
+        ).setFirstResult(offsert)
+                .setMaxResults(liimt)
+                .getResultList();
+    }
+
     public List<Order> findAllWithItem() {
         /* 현재는 데이터가 중복으로 나온다.
         return em.createQuery(

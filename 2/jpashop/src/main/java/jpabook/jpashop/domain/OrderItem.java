@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jpabook.jpashop.domain.item.Item;
 import lombok.*;
+import org.hibernate.annotations.BatchSize;
 
 import java.util.Objects;
 
@@ -12,6 +13,7 @@ import java.util.Objects;
 @ToString(callSuper = true)
 @NoArgsConstructor(access = AccessLevel.PUBLIC)
 @AllArgsConstructor(staticName = "of")
+//@BatchSize(size = 100)
 public class OrderItem extends AuditingFields{
     @Id
     @GeneratedValue

@@ -2,6 +2,7 @@ package jpabook.jpashop.domain;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.BatchSize;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -86,6 +87,13 @@ Java에서는 `java.lang.reflect.Proxy`를 사용하여 동적 프록시(Dynamic
     */
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     @OrderBy("createdAt DESC")
+    //@BatchSize(size = 100)
+    /* application.yml = 모든 부분에 적용,
+    원하는 부분에 적용을 원할 경우 @BatchSize를 사용한다.
+    컬렉션일 경우 위와 같이 적용한다. 컬렉션이 아닐 경우 @Entity의 상단에 작성한다.
+
+    사이즈는 100 ~1000사이가 적당하다. 1000개 이상일 경우 부하 증가
+     */
     private List<OrderItem> orderItems = new ArrayList<>();
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)

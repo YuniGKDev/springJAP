@@ -10,6 +10,7 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDateTime;
@@ -111,10 +112,22 @@ public class OrderApiController {
     }
 
     /* fetch join */
-    /* 1:N을 fetch join하면 페이징처리가 되지 않는다. */
     @GetMapping("/api/v3/orders")
-    public List<OrderDto> ordersv3(){
-        List<Order> orders = orderRepository.findAllWithItem();
+    public List<OrderDto> ordersv3(
+            @RequestParam(value = "offset", defaultValue = "0") int offset
+            , @RequestParam(value = "limit", defaultValue = "100") int limit
+            ){
+        /* 1:N을 fetch join하면 페이징처리가 되지 않는다. */
+        /*List<Order> orders = orderRepository.findAllWithItem();*/
+
+        /* 페이징 처리 방법
+        - 페이징 + 컬렉션 엔티티 함께 조회
+           -> ToOne (OneToOne, ManyToOne)관걔를 모두 패치조인
+           ToOne 관계는 row수를 증가 시키지 않아, 페이징 쿼리에 영향을 주지 않는다.
+           -> 컬렉션은 지연 로딩
+           (hidernate.default_batch_fetch_size, @BetchSize)
+        */
+        List<Order> orders = orderRepository.findAllWithMemberDelivery(offset, limit);
 
         return orders.stream()
                 .map(OrderDto::new)
